@@ -1,0 +1,34 @@
+create database 0419_test;
+use 0419_test;
+
+CREATE table company (
+	company_id int(8) not null auto_increment,
+	company_name char(30),
+	primary key(company_id)
+);
+
+create table language_table (
+	language_id int(8) not null auto_increment,
+	language_type char(5),
+	primary key(language_id)
+);
+
+create table company_name (
+    name_id int(10) not null auto_increment,
+	company_id int(8) not null,
+	language_id int(8) not null,
+	company_name char(30),
+	primary key (name_id),
+	FOREIGN key (company_id) REFERENCES company (company_id),
+	FOREIGN key (language_id) REFERENCES language_table (language_id)
+);
+
+create table company_tag (
+    tag_id int(10) not null auto_increment,
+	company_id int(8) not null,
+	language_id int(8) not null,
+	company_tag char(30),
+	primary key (tag_id),
+	FOREIGN key (company_id) REFERENCES company (company_id),
+	FOREIGN key (language_id) REFERENCES language_table (language_id)
+);
