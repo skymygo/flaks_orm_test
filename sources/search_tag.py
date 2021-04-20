@@ -51,21 +51,22 @@ class TagManipulation(MethodView):
         return json.dumps(res, ensure_ascii=False)
 
     def post(self):
-        print(request.get_data())
-        print(request.form)
-        print(request.json())
-        params = json.loads(request.get_data(), encoding='utf-8')
+        try:
+            data = request.get_data().decode("utf-8")
+        except:
+            data = request.get_data()
+        params = json.loads(data)
         with Session() as session:
             for c, t in session.query(CompanyName, CompanyTag). \
                     filter(CompanyTag.company_tag == params.get("tag")). \
                     filter(CompanyName.company_id == CompanyTag.company_id). \
                     filter(CompanyName.company_name == params.get("company_name")).\
-                    filter(CompanyTag.language_id == params.get("language_id")).all():
+                    filter(CompanyTag.language_id == params.get("language_code")).all():
                 res = {"error": "이미 존재하는 데이터입니다."}
                 return json.dumps(res, ensure_ascii=False)
             for c in session.query(CompanyName).\
                 filter(CompanyName.company_name == params.get("company_name")).all():
-                new_tag = CompanyTag(None,c.company_id,params.get("language_id"), params.get("tag"))
+                new_tag = CompanyTag(None, c.company_id, params.get("language_code"), params.get("tag"))
                 session.add(new_tag)
                 session.commit()
                 res = {"success": "success"}
