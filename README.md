@@ -2,14 +2,17 @@
 
 
 필요 모듈
+
     pymysql
     sqlalchemy
     flask
 
 실행법
+
     api_info.json과 db_info.json에 적절한 값을 입력한 후 api.py를 실행한다.
 
 사용법
+
     1. 회사명 자동완성 (/search/company/name/<company>)
         검색하고자 하는 회사명을 입력한다.
         ex) ak를 검색하려면 /search/company/name/ak 를 입력한다
